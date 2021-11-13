@@ -20,9 +20,20 @@ class GetCategoryRequest extends ApiRequest
     public function run(): JsonResponse
     {
         $arr = explode(" ",$this->text);
-        $Tag = Tag::whereIn('name',$arr)->select('category_id', DB::raw('count(*) as total'))->groupBy('category_id')->orderBy('total', 'DESC')->first();
-        if ($Tag) {
-            $Category = (new Category())->find($Tag->category_id);
+        $cats = [];
+        foreach ($arr as $a){
+            $Tag = Tag::where('name',$a)->first();
+            if ($Tag) {
+                if (isset($cats[$Tag->getCategoryId()])) {
+                    $cats[$Tag->getCategoryId()] +=1;
+                }else{
+                    $cats[$Tag->getCategoryId()] =1;
+                }
+            }
+        }
+        $Id= array_keys($cats,max($cats));
+        if (isset($Id[0])) {
+            $Category = (new Category())->find($Id[0]);
             return $this->successJsonResponse([],new CategoriesResource($Category),'Category');
         }else{
             return $this->failJsonResponse([__('messages.wrong_data')]);
