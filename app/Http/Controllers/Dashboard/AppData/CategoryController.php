@@ -57,7 +57,8 @@ class CategoryController extends Controller
             'image'=> [
                 'name'=>'image',
                 'type'=>'image',
-                'is_required'=>true
+                'is_required'=>true,
+                'is_required_update'=>false
             ],
             'active'=> [
                 'name'=>'active',
