@@ -3,26 +3,20 @@
 namespace App\Http\Controllers\Dashboard\AppData;
 
 use App\Http\Controllers\Dashboard\Controller;
-use App\Models\Category;
+use App\Models\Law;
 use App\Traits\AhmedPanelTrait;
 
-class CategoryController extends Controller
+class LawController extends Controller
 {
     use AhmedPanelTrait;
 
     public function setup()
     {
-        $this->setRedirect('dashboard/app_data/categories');
-        $this->setEntity(new Category());
-        $this->setTable('categories');
-        $this->setLang('Category');
+        $this->setRedirect('dashboard/app_data/laws');
+        $this->setEntity(new Law());
+        $this->setTable('laws');
+        $this->setLang('Law');
         $this->setColumns([
-            'image'=> [
-                'name'=>'image',
-                'type'=>'image',
-                'is_searchable'=>false,
-                'order'=>false
-            ],
             'name'=> [
                 'name'=>'name',
                 'type'=>'text',
@@ -32,12 +26,6 @@ class CategoryController extends Controller
             'name_ar'=> [
                 'name'=>'name_ar',
                 'type'=>'text',
-                'is_searchable'=>true,
-                'order'=>true
-            ],
-            'active'=> [
-                'name'=>'active',
-                'type'=>'active',
                 'is_searchable'=>true,
                 'order'=>true
             ],
@@ -51,17 +39,6 @@ class CategoryController extends Controller
             'name_ar'=> [
                 'name'=>'name_ar',
                 'type'=>'text',
-                'is_required'=>true
-            ],
-            'image'=> [
-                'name'=>'image',
-                'type'=>'image',
-                'is_required'=>true,
-                'is_required_update'=>false
-            ],
-            'active'=> [
-                'name'=>'active',
-                'type'=>'active',
                 'is_required'=>true
             ],
         ]);

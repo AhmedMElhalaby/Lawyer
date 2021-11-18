@@ -149,6 +149,42 @@ Route::group([
             Route::delete('/{tag}','TagController@destroy');
             Route::get('/option/export','TagController@export');
         });
+        Route::group([
+            'prefix'=>'laws'
+        ],function () {
+            Route::get('/','LawController@index');
+            Route::get('/create','LawController@create');
+            Route::post('/','LawController@store');
+            Route::get('/{law}','LawController@show');
+            Route::get('/{law}/edit','LawController@edit');
+            Route::put('/{law}','LawController@update');
+            Route::delete('/{law}','LawController@destroy');
+            Route::get('/option/export','LawController@export');
+        });
+        Route::group([
+            'prefix'=>'laws_articles'
+        ],function () {
+            Route::get('/','LawArticleController@index');
+            Route::get('/create','LawArticleController@create');
+            Route::post('/','LawArticleController@store');
+            Route::get('/{law_article}','LawArticleController@show');
+            Route::get('/{law_article}/edit','LawArticleController@edit');
+            Route::put('/{law_article}','LawArticleController@update');
+            Route::delete('/{law_article}','LawArticleController@destroy');
+            Route::get('/option/export','LawArticleController@export');
+        });
+        Route::group([
+            'prefix'=>'laws_articles_tags'
+        ],function () {
+            Route::get('/','LawArticleTagController@index');
+            Route::get('/create','LawArticleTagController@create');
+            Route::post('/','LawArticleTagController@store');
+            Route::get('/{law_article_tag}','LawArticleTagController@show');
+            Route::get('/{law_article_tag}/edit','LawArticleTagController@edit');
+            Route::put('/{law_article_tag}','LawArticleTagController@update');
+            Route::delete('/{law_article_tag}','LawArticleTagController@destroy');
+            Route::get('/option/export','LawArticleTagController@export');
+        });
     });
     /*
     |--------------------------------------------------------------------------
