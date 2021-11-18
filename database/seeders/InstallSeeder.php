@@ -81,6 +81,24 @@ class InstallSeeder extends Seeder
                         'key'=>'tags',
                         'icon'=>'card_membership'
                     ],
+                    'Laws'=>[
+                        'name'=>'Laws',
+                        'name_ar'=>'القوانين',
+                        'key'=>'laws',
+                        'icon'=>'card_membership'
+                    ],
+                    'LawArticles'=>[
+                        'name'=>'Law Articles',
+                        'name_ar'=>'مواد القوانين',
+                        'key'=>'laws_articles',
+                        'icon'=>'card_membership'
+                    ],
+                    'LawArticlesTags'=>[
+                        'name'=>'Law Articles Tags',
+                        'name_ar'=>'الكلمات المفتاحية للقوانين ',
+                        'key'=>'laws_articles_tags',
+                        'icon'=>'card_membership'
+                    ],
                 ]
             ],
             'UsersManagements'=>[
