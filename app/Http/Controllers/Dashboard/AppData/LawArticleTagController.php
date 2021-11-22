@@ -30,7 +30,7 @@ class LawArticleTagController extends Controller
                     'custom'=>function($Object){
                         return ($Object)?app()->getLocale() == 'ar'?$Object->name_ar:$Object->name:'-';
                     },
-                    'entity'=>'law_id'
+                    'entity'=>'law'
                 ],
                 'is_searchable'=>true,
                 'order'=>true

@@ -16,6 +16,7 @@ class CreateLawsArticlesTagsTable extends Migration
         Schema::create('laws_articles_tags', function (Blueprint $table) {
             $table->id();
             $table->foreignId('law_article_id');
+            $table->foreignId('law_id');
             $table->string('name');
             $table->timestamps();
         });
