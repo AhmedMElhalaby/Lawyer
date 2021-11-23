@@ -45,15 +45,29 @@ class GetCategoryRequest extends ApiRequest
                 }
             }
         }
+        if (count($cats)==0) {
+            return $this->failJsonResponse([__('messages.wrong_data')]);
+        }
         $CatId= array_keys($cats,max($cats));
-        $FirstArticleId= array_keys($articles,max($articles));
-        unset($articles[$FirstArticleId[0]]);
-        $SecondArticleId= array_keys($articles,max($articles));
-        unset($articles[$SecondArticleId[0]]);
-        $ThirdArticleId= array_keys($articles,max($articles));
+        $ArticleArray = [];
+        if (count($articles) >0) {
+            $FirstArticleId= array_keys($articles,max($articles));
+            array_push($ArticleArray, $FirstArticleId[0]);
+            unset($articles[$FirstArticleId[0]]);
+            if (count($articles) >0) {
+                $SecondArticleId= array_keys($articles,max($articles));
+                array_push($ArticleArray, $SecondArticleId[0]);
+                unset($articles[$SecondArticleId[0]]);
+                if (count($articles) >0) {
+                    $ThirdArticleId= array_keys($articles,max($articles));
+                    array_push($ArticleArray, $ThirdArticleId[0]);
+                    unset($articles[$ThirdArticleId[0]]);
+                }
+            }
+        }
         if (isset($CatId[0])) {
             $Category = (new Category())->find($CatId[0]);
-            $LawArticles = (new LawArticle())->whereIn('id',[$FirstArticleId,$SecondArticleId,$ThirdArticleId])->get();
+            $LawArticles = (new LawArticle())->whereIn('id',$ArticleArray)->get();
             return $this->successJsonResponse([],[
                 'Category'=>new CategoriesResource($Category),
                 'LawArticles'=>LawArticleResource::collection($LawArticles)
