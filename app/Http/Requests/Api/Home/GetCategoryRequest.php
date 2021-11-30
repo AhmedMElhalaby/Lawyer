@@ -10,7 +10,6 @@ use App\Models\LawArticle;
 use App\Models\LawArticleTag;
 use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 
 class GetCategoryRequest extends ApiRequest
 {
@@ -38,10 +37,10 @@ class GetCategoryRequest extends ApiRequest
         foreach ($arr as $a){
             $Tag = LawArticleTag::where('name',$a)->first();
             if ($Tag) {
-                if (isset($cats[$Tag->getLawArticleId()])) {
-                    $cats[$Tag->getLawArticleId()] +=1;
+                if (isset($articles[$Tag->getLawArticleId()])) {
+                    $articles[$Tag->getLawArticleId()] +=1;
                 }else{
-                    $cats[$Tag->getLawArticleId()] =1;
+                    $articles[$Tag->getLawArticleId()] =1;
                 }
             }
         }
