@@ -44,7 +44,7 @@ class LawController extends Controller
         ]);
         $this->SetLinks([
             'edit',
-            'delete',
+//            'delete',
         ]);
     }
 }

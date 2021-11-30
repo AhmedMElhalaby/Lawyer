@@ -67,7 +67,7 @@ class CategoryController extends Controller
         ]);
         $this->SetLinks([
             'edit',
-            'delete',
+//            'delete',
         ]);
     }
 }
