@@ -141,6 +141,7 @@ return [
         'crud_the_name' => 'القانون',
         'name' => 'الاسم انجليزي',
         'name_ar' => 'الاسم عربي',
+        'category_id' => 'التصنيف',
     ],
     'LawArticle'=>[
         'crud_names' => 'مواد القوانين',

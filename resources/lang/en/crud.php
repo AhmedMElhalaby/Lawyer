@@ -140,6 +140,7 @@ return [
         'crud_the_name' => 'The Law',
         'name' => 'Name',
         'name_ar' => 'Name Ar',
+        'category_id' => 'Category',
     ],
     'LawArticle'=>[
         'crud_names' => 'Laws Articles',
