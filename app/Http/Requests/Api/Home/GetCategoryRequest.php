@@ -6,6 +6,7 @@ use App\Http\Requests\Api\ApiRequest;
 use App\Http\Resources\Api\Home\CategoriesResource;
 use App\Http\Resources\Api\Home\LawArticleResource;
 use App\Models\Category;
+use App\Models\Law;
 use App\Models\LawArticle;
 use App\Models\LawArticleTag;
 use App\Models\Tag;
@@ -22,17 +23,6 @@ class GetCategoryRequest extends ApiRequest
     public function run(): JsonResponse
     {
         $arr = explode(" ",$this->text);
-        $cats = [];
-        foreach ($arr as $a){
-            $Tag = Tag::where('name',$a)->first();
-            if ($Tag) {
-                if (isset($cats[$Tag->getCategoryId()])) {
-                    $cats[$Tag->getCategoryId()] +=1;
-                }else{
-                    $cats[$Tag->getCategoryId()] =1;
-                }
-            }
-        }
         $articles = [];
         foreach ($arr as $a){
             $Tag = LawArticleTag::where('name',$a)->first();
@@ -44,10 +34,18 @@ class GetCategoryRequest extends ApiRequest
                 }
             }
         }
-        if (count($cats)==0) {
-            return $this->failJsonResponse([__('messages.wrong_data')]);
+        $cats = [];
+        foreach ($arr as $a){
+            $Tag = Tag::where('name',$a)->first();
+            if ($Tag) {
+                if (isset($cats[$Tag->getCategoryId()])) {
+                    $cats[$Tag->getCategoryId()] +=1;
+                }else{
+                    $cats[$Tag->getCategoryId()] =1;
+                }
+            }
         }
-        $CatId= array_keys($cats,max($cats));
+
         $ArticleArray = [];
         if (count($articles) >0) {
             $FirstArticleId= array_keys($articles,max($articles));
@@ -63,6 +61,16 @@ class GetCategoryRequest extends ApiRequest
                     unset($articles[$ThirdArticleId[0]]);
                 }
             }
+        }
+        if (count($cats)==0) {
+            if(count($ArticleArray) == 0){
+                return $this->failJsonResponse([__('messages.wrong_data')]);
+            }else{
+                $LwA = LawArticle::whereIn('id',$ArticleArray)->pluck('law_id');
+                $CatId = Law::whereIn('id',$LwA)->pluck('category_id');
+            }
+        }else{
+            $CatId= array_keys($cats,max($cats));
         }
         if (isset($CatId[0])) {
             $Category = (new Category())->find($CatId[0]);
