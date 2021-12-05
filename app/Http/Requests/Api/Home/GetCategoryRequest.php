@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Home;
 
+use App\Helpers\Functions;
 use App\Http\Requests\Api\ApiRequest;
 use App\Http\Resources\Api\Home\CategoriesResource;
 use App\Http\Resources\Api\Home\LawArticleResource;
@@ -24,18 +25,18 @@ class GetCategoryRequest extends ApiRequest
     {
         $arr = explode(" ",$this->text);
         $articles = [];
+        $cats = [];
+        $ArticleArray = [];
+        $words = Functions::GetWordsFromArray($arr);
         foreach ($arr as $a){
-            $Tag = LawArticleTag::where('name',$a)->first();
-            if ($Tag) {
-                if (isset($articles[$Tag->getLawArticleId()])) {
-                    $articles[$Tag->getLawArticleId()] +=1;
+            $LawArticleTag = LawArticleTag::where('name',$a)->first();
+            if ($LawArticleTag) {
+                if (isset($articles[$LawArticleTag->getLawArticleId()])) {
+                    $articles[$LawArticleTag->getLawArticleId()] +=1;
                 }else{
-                    $articles[$Tag->getLawArticleId()] =1;
+                    $articles[$LawArticleTag->getLawArticleId()] =1;
                 }
             }
-        }
-        $cats = [];
-        foreach ($arr as $a){
             $Tag = Tag::where('name',$a)->first();
             if ($Tag) {
                 if (isset($cats[$Tag->getCategoryId()])) {
@@ -45,8 +46,24 @@ class GetCategoryRequest extends ApiRequest
                 }
             }
         }
-
-        $ArticleArray = [];
+        foreach ($words as $w){
+            $LawArticleTag = LawArticleTag::where('name',$w)->first();
+            if ($LawArticleTag) {
+                if (isset($articles[$LawArticleTag->getLawArticleId()])) {
+                    $articles[$LawArticleTag->getLawArticleId()] +=1;
+                }else{
+                    $articles[$LawArticleTag->getLawArticleId()] =1;
+                }
+            }
+            $Tag = Tag::where('name',$w)->first();
+            if ($Tag) {
+                if (isset($cats[$Tag->getCategoryId()])) {
+                    $cats[$Tag->getCategoryId()] +=1;
+                }else{
+                    $cats[$Tag->getCategoryId()] =1;
+                }
+            }
+        }
         if (count($articles) >0) {
             $FirstArticleId= array_keys($articles,max($articles));
             array_push($ArticleArray, $FirstArticleId[0]);

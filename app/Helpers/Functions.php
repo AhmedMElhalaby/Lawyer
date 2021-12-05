@@ -234,4 +234,17 @@ class Functions
         }
         return $attribute_value??null;
     }
+    public static function GetWordsFromArray($array): array
+    {
+        $arr = [];
+        foreach ($array as $key=>$value){
+            if (($key % 2) ==0 && isset($array[$key+1])) {
+                array_push($arr,$value.' '.$array[$key+1]);
+            }
+            if (($key % 2) ==1 && isset($array[$key+1])) {
+                array_push($arr,$value.' '.$array[$key+1]);
+            }
+        }
+        return $arr;
+    }
 }
