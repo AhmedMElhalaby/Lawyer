@@ -66,15 +66,24 @@ class GetCategoryRequest extends ApiRequest
         }
         if (count($articles) >0) {
             $FirstArticleId= array_keys($articles,max($articles));
-            array_push($ArticleArray, $FirstArticleId[0]);
+            array_push($ArticleArray, [
+                'article_id'=>$FirstArticleId[0],
+                'count'=>$articles[$FirstArticleId[0]],
+            ]);
             unset($articles[$FirstArticleId[0]]);
             if (count($articles) >0) {
                 $SecondArticleId= array_keys($articles,max($articles));
-                array_push($ArticleArray, $SecondArticleId[0]);
+                array_push($ArticleArray, [
+                    'article_id'=>$SecondArticleId[0],
+                    'count'=>$articles[$SecondArticleId[0]]
+                ]);
                 unset($articles[$SecondArticleId[0]]);
                 if (count($articles) >0) {
                     $ThirdArticleId= array_keys($articles,max($articles));
-                    array_push($ArticleArray, $ThirdArticleId[0]);
+                    array_push($ArticleArray, [
+                        'article_id'=>$ThirdArticleId[0],
+                        'count'=>$articles[$ThirdArticleId[0]]
+                    ]);
                     unset($articles[$ThirdArticleId[0]]);
                 }
             }
@@ -91,10 +100,13 @@ class GetCategoryRequest extends ApiRequest
         }
         if (isset($CatId[0])) {
             $Category = (new Category())->find($CatId[0]);
-            $LawArticles = (new LawArticle())->whereIn('id',$ArticleArray)->get();
+            $LawArticles = [];
+            foreach ($ArticleArray as $art){
+                array_push($LawArticles,new LawArticleResource((new LawArticle())->find($art['article_id']),$art['count']));
+            }
             return $this->successJsonResponse([],[
                 'Category'=>new CategoriesResource($Category),
-                'LawArticles'=>LawArticleResource::collection($LawArticles)
+                'LawArticles'=>$LawArticles
             ]);
         }else{
             return $this->failJsonResponse([__('messages.wrong_data')]);

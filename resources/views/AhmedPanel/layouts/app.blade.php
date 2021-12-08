@@ -62,10 +62,10 @@
                             <form id="logout-form" action="{{ route('dashboard.logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-                            <a href="{{url('dashboard/app/lang')}}" style="display: inline-block;">
-                                <i class="material-icons text-primary" data-toggle="tooltip" data-placement="bottom" title="{{__('dashboard.switch_lang')}}" style="font-size: 30px">g_translate</i>
-                                <p class="hidden-lg hidden-md">Language</p>
-                            </a>
+{{--                            <a href="{{url('dashboard/app/lang')}}" style="display: inline-block;">--}}
+{{--                                <i class="material-icons text-primary" data-toggle="tooltip" data-placement="bottom" title="{{__('dashboard.switch_lang')}}" style="font-size: 30px">g_translate</i>--}}
+{{--                                <p class="hidden-lg hidden-md">Language</p>--}}
+{{--                            </a>--}}
                             <a href="{{route('dashboard.logout')}}" style="display: inline-block;" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                 <i class="material-icons text-primary" data-toggle="tooltip" data-placement="bottom" title="{{__('auth.logout')}}" style="font-size: 30px">logout</i>
                                 <p class="hidden-lg hidden-md">logout</p>
