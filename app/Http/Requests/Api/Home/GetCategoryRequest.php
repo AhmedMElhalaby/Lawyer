@@ -92,7 +92,7 @@ class GetCategoryRequest extends ApiRequest
             if(count($ArticleArray) == 0){
                 return $this->failJsonResponse([__('messages.wrong_data')]);
             }else{
-                $LwA = LawArticle::whereIn('id',$ArticleArray)->pluck('law_id');
+                $LwA = LawArticle::whereIn('id',collect($ArticleArray)->pluck('article_id'))->pluck('law_id');
                 $CatId = Law::whereIn('id',$LwA)->pluck('category_id');
             }
         }else{
